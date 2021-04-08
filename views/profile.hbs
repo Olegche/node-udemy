@@ -1,0 +1,44 @@
+<h1>
+    Profile
+
+</h1>
+<div class="row">
+    {{#if user.avatar}}
+    <div class="col s6">
+        <img class="avatar" src="/{{user.avatar}}"
+            alt="image">
+            {{else}}
+                <img class="avatar" src="https://data.whicdn.com/images/349425280/original.png?t=1602221782" alt="{{user.name}}" >
+
+        {{/if}}
+    </div>
+    <div class="col s6">
+        <form action="/profile" method="POST" enctype="multipart/form-data">
+            <p>
+                Your e-mail : <strong>{{user.email}}</strong>
+            </p>
+            <hr>
+            <div class="input-field">
+                <label for="name"> Your name</label>
+                <input id="name" name="name" type="text" value="{{user.name}}" class="validate" required>
+                <span class="helper-text" data-error="write your name, please!"></span>
+            </div>
+            
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span>Avatar</span>
+                        <input type="file"  name="img" >
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text" placeholder="add your avatar" >
+                    </div>
+                </div>
+                <input type="hidden" name="_csrf" value="{{csurf}}">
+
+                <button type="submit" class="btn">
+                    Change
+                </button>
+          
+        </form>
+    </div>
+</div>

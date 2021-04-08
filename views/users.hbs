@@ -1,0 +1,21 @@
+<h1>Users</h1>
+{{#if users.length}}
+{{#each users}}
+
+<p>
+
+    name: {{name}}
+    <br>
+    email: {{email}}
+    <br>
+    <a href="/users/{{id}}" target="_blank">About this user</a>
+    <hr>
+
+</p>
+
+{{/each}}
+{{else}}
+<p>
+    No any users yet
+</p>
+{{/if}}

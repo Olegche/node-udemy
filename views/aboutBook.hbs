@@ -1,0 +1,31 @@
+{{>head}}
+  <body>
+    {{>navbar}}
+<div >
+
+    {{{body}}}
+    {{#if book.description}}
+<div class="description">
+{{book.description}}
+</div>
+{{else}}
+<div class="description">
+    no description yet, but we hope not for a long time.
+</div>
+{{/if}}
+ <form action="/cart/addToCart" method="POST">
+ <div class="add-to-cart">
+     <input type="hidden" name="id" value="{{book.id}}">
+        <button type="submit" class="btn btn-primary ">Add {{book.title}} to cart</button>
+        </form>
+ </div>
+        
+</div>
+  {{>footer}}
+  </body>
+  
+
+
+
+
+

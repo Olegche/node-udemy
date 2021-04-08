@@ -1,0 +1,44 @@
+<h1>Cart</h1>
+<div id="cart">
+    {{#if books.length}}
+    <table>
+        <thead>
+            <tr>
+                <th>Book</th>
+                <th>Count</th>
+                <th>Price</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each books}}
+            <tr>
+                <td>{{title}}</td>
+                <td>{{count}}</td>
+                <td>{{price}}</td>
+                <td>
+                    <button class="btn btn-small bnt-remove-book-from-cart" data-id="{{id}}" data-csurf="{{@root.csurf}}">
+                        X
+                    </button>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <span>
+        Totally price
+        <p class="price">
+            {{price}}
+        </p>
+    </span>
+    <form action="/orders" method="POST">
+    <input type="hidden" name="_csrf" value="{{@root.csurf}}">
+    <button type="submit" class="btn "> Make an order</button>
+    </form>
+    {{else}}
+    <div>
+        <strong>Cart is empty, you have to immediately  add some books </strong>
+    </div>
+    {{/if}}
+</div>

@@ -1,0 +1,80 @@
+<div class="auth">
+    <div class="row">
+        <div class="col s12">
+            <ul class="tabs">
+                <li class="tab col s6"><a class="active" href="#login">Login</a></li>
+                <li class="tab col s6"><a href="#signup">Sign Up</a></li>
+
+            </ul>
+        </div>
+        <div id="login" class="col s6 offset-s3">
+            {{#if loginError}}
+            <p class="alert">
+                {{loginError}}
+            </p>
+
+            {{/if}}
+
+
+            <h1>
+                Login
+            </h1>
+            <form action="/auth/login" method="POST" novalidate>
+                <div class="input-field">
+                    <input placeholder="example@gmail.com" id="email" name="email" type="email" class="validate"
+                        required>
+                    <span class="helper-text" data-error="Write email"></span>
+                </div>
+                <div class="input-field">
+                    <input placeholder="password" id="password" name="password" type="password" class="validate"
+                        required>
+                    <span class="helper-text" data-error="Password please"></span>
+                </div>
+                <input type="hidden" name="_csrf" value="{{csurf}}">
+
+                <p>
+                    <a href="/auth/forget-password">Forget a password?</a>
+                </p>
+                <button class="btn btn-primary add-to-cart" type="submit">Login</button>
+            </form>
+        </div>
+        <div id="signup" class="col s6 offset-s3">
+            {{#if signupError}}
+            <p class="alert">
+                {{signupError}}
+            </p>
+
+            {{/if}}
+            <h1>
+                Sign up
+            </h1>
+            <form action="/auth/signup" method="POST" novalidate>
+                <div class="input-field">
+                    <input placeholder="example@gmail.com" id="sgn-email" name="email" type="email" class="validate"
+                        required>
+                    <span class="helper-text" data-error="Write email"></span>
+                </div>
+                <div class="input-field">
+                    <input placeholder="name" id="name" name="name" type="text" required>
+                    <span class="helper-text" data-error="name please"></span>
+                </div>
+                <div class="input-field">
+                    <input placeholder="password" id="sgn-password" name="password" type="password" class="validate"
+                        required>
+                    <span class="helper-text" data-error="Password please"></span>
+                </div>
+
+                <div class="input-field">
+                    <input placeholder="confirm password" id="confirm-password" name="confirm-password" type="password" class="validate"
+                        required>
+                    <span class="helper-text" data-error="Confirm Password please"></span>
+                </div>
+
+                <input type="hidden" name="_csrf" value="{{csurf}}">
+
+                <button class="btn btn-primary add-to-cart" type="submit">Sign up</button>
+            </form>
+        </div>
+
+    </div>
+</div>
