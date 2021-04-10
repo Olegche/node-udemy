@@ -16,9 +16,9 @@ const User = new Schema({
     type: String,
     required: true
   },
-  avatar : String,
+  avatar: String,
   resetEmailToken: String,
-  
+
   resetEmailTokenExp: Date,
 
   cart: {
@@ -35,6 +35,16 @@ const User = new Schema({
 
       }
     }]
+  },
+  // start to extending app to create friends list
+  friendsList: {
+    friends: [{
+      friendId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    }]
+
   }
 })
 
@@ -105,5 +115,47 @@ User.methods.clearCart = function () {
   }
   return this.save()
 }
+
+
+// friends functions
+
+User.methods.addToFriend = function (user) {
+
+  const friends = [...this.friendsList.friends]
+  const idx = friends.findIndex(item => {
+    return item.friendId.toString() === user._id.toString()
+  })
+
+  if (idx >= 0) {
+    console.log('friend is already existing');
+ 
+  } else {
+    friends.push({
+    friendId: user._id,
+
+  })
+  }
+
+  
+
+  this.friendsList = {
+    friends
+  }
+  return this.save()
+}
+User.methods.deleteFriends= function (candidate) {
+  let friends = [...this.friendsList.friends]
+  friends = friends.filter(item => item.friendId.toString() !== candidate.toString())
+
+  this.friendsList = {
+    friends
+  }
+  return this.save()
+}
+
+// const newCart = {items: clonedItems}
+// this.cart = newCart
+
+
 
 module.exports = model('User', User)

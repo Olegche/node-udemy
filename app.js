@@ -40,7 +40,7 @@ var cartRouter = require('./routes/cart')
 var ordersRouter = require('./routes/orders')
 var authRouter = require('./routes/auth')
 var profileRouter = require('./routes/profile')
-// var followingUsersListRouter = require('./routes/followingUsersList')
+var friendsRouter = require('./routes/friends')
 
 hbs.registerPartials(__dirname + '/views/partials')
 
@@ -102,7 +102,7 @@ app.use('/cart',cartRouter)
 app.use('/orders',ordersRouter)
 app.use('/auth', authRouter )
 app.use('/profile', profileRouter)
-// app.use('/followingUsersList', followingUsersListRouter)
+app.use('/friends', friendsRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,0 +1,19 @@
+<h1>
+   Friends
+</h1>
+{{#if friends.length}}
+{{#each friends}}
+
+   <a href="/users/{{id}}" target="_blank">{{name}}</a>
+<hr>
+<form action="friends/delete-friend" method="POST">
+    <input type="hidden" name="id" value="{{id}}">
+    <input type="hidden" name="_csrf" value="{{@root.csurf}}">
+    <button type="submit" class="btn btn-primary">delete this friend</button>
+</form>
+{{/each}}
+
+{{else}}
+
+no friends
+{{/if}}
