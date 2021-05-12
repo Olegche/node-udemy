@@ -1,31 +1,81 @@
 {{>head}}
-  <body>
-    {{>navbar}}
-<div >
+
+<body>
+  {{>navbar}}
+  <div>
 
     {{{body}}}
     {{#if book.description}}
-<div class="description">
-{{book.description}}
-</div>
-{{else}}
-<div class="description">
-    no description yet, but we hope not for a long time.
-</div>
-{{/if}}
- <form action="/cart/addToCart" method="POST">
- <div class="add-to-cart">
-     <input type="hidden" name="id" value="{{book.id}}">
+    <div class="description">
+      {{book.description}}
+    </div>
+    {{else}}
+    <div class="description">
+      no description yet, but we hope not for a long time.
+    </div>
+    {{/if}}
+    <form action="/cart/add-to-cart" method="POST">
+      <div class="add-to-cart">
+        <input type="hidden" name="_csrf" value="{{@root.csurf}}">
+        <input type="hidden" name="id" value="{{book.id}}">
         <button type="submit" class="btn btn-primary ">Add {{book.title}} to cart</button>
-        </form>
- </div>
-        
+
+      </div>
+
+    </form>
+    <br>
+    <hr>
+<div class="text-area-for-comments">
+  <p>
+    Feel free to add some comments!
+  </p>
+   <form action="/books/add-comment" method="post">
+
+      <textarea name="comment" placeholder="write your comment" cols="30" rows="10"
+        style="width: 300px; height: 100px; margin: 20px" ; minlength="7"></textarea>
+      {{!-- <input type="text" name="comment"> --}}
+      <input type="hidden" name="_csrf" value="{{@root.csurf}}">
+      <input type="hidden" name="id" value="{{book.id}}">
+      <br>
+      <button type="submit" class="btn btn-primary " style="margin: 20px;">Add comment</button>
+    </form>
 </div>
+   
+  </div>
+
+  {{#if book.comments.length}}
+  <h2>
+    Comments:
+  </h2>
+  {{#each book.comments}}
+
+  <div class="avatar-mini">
+    <strong class="user-name">
+      {{commentator.name}}
+    </strong>
+
+    <br>
+    <img src="/{{commentator.avatar}}" alt="{{commentator.name}}">
+    <br>
+   
+    say: <span class="say">
+      {{comment}}
+    </span>
+
+    <hr>
+     <p>
+      wrote at :
+    <p class="date">
+      {{date}}
+    </p>
+    </p>
+   
+
+  </div>
+
+  {{/each}}
+  {{else}}
+  no comments yetb
+  {{/if}}
   {{>footer}}
-  </body>
-  
-
-
-
-
-
+</body>

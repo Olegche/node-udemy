@@ -32,7 +32,7 @@ exports.signupValidators = [
             console.log(e);
         }
     })
-    .normalizeEmail() // санітайзер для введення та збереження корректних даних
+    // .normalizeEmail() // санітайзер для введення та збереження корректних даних
     .trim(),
 
     body('password', 'Password has to contain min 6 symbols')

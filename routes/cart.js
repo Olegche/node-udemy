@@ -26,8 +26,6 @@ router.post('/add-to-cart', auth, async (req, res) => {
    
     await req.user.addBookToCart(book)
     res.redirect('/cart')
-
-
 })
 
 router.get('/', auth, async (req, res) => {

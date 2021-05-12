@@ -1,4 +1,5 @@
 var express = require('express');
+
 var router = express.Router();
 const {
     validationResult
@@ -19,15 +20,25 @@ router.get('/', async (req, res) => {
     try {
         const books = await Book.find()
             .populate('userId', 'email name')
-            .select('price title img')
+            .select('price title img  userId')
 
+        let friends = req.user.friendsList.friends
+
+        const filteredBooks = [] //  філтеред букс це книги які можуть бачити ті користувачі які є в друзях і які є авторами публікації цих книг
+        for (const book of books) {
+            for (const friend of friends) {
+                if (friend.friendId.toString() === book.userId._id.toString()) {
+                    filteredBooks.push(book)
+                }
+            }
+        }
 
         res.render('books', {
             title: 'Books',
             isbooks: true,
             userId: req.user ? req.user._id.toString() : null,
-
-            books
+            books,
+            filteredBooks
         })
     } catch (e) {
         console.log(e)
@@ -102,18 +113,39 @@ router.post('/edit', auth, addBooksValidators, async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
-        const book = await Book.findById(req.params.id)
+        const book = await Book.findById(req.params.id).populate('userId', 'email name avatar')
+            .populate('comments.commentator')
+            .select('price title img description comments')
         res.render('current-book', {
             layout: 'aboutBook',
             title: book.title,
-            book
+            book,
+            userId: req.user ? req.user._id.toString() : null,
+
         })
     } catch (e) {
         console.log(e);
     }
 
 })
+////
+router.post('/add-comment', auth, async (req, res) => {
 
+    try {
+        let comment = req.body.comment
+        const book = await Book.findById(req.body.id)
+        book.userId = req.user._id
+        const commentator = await req.user
+
+        await book.addComment(comment, commentator)
+        return res.redirect(`/books/${book._id}`)
+
+    } catch (e) {
+        console.log(e)
+    }
+
+})
+////
 router.post('/delete', auth, async (req, res) => {
     try {
         await Book.findOneAndDelete({

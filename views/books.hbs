@@ -29,6 +29,8 @@
         <input type="hidden" name="_csrf" value="{{@root.csurf}}">
         <button type="submit" class="btn btn-primary">Add</button>
         </form>
+
+       
         {{/if}}
 
       </div>
@@ -37,7 +39,52 @@
 
 {{/each}}
 {{else}}
+
+
 <p>
   No any books yet
 </p>
 {{/if}}
+
+<div>
+  filtered books
+  {{#if filteredBooks.length}}
+  {{#each filteredBooks}}
+  
+  <div class="col s4 offset-s6">
+    <div class="card">
+      <div class="card-image">
+        <img src="{{img}}" alt="{{title}}">
+
+      </div>
+      <div class="card-content">
+        <span class="card-title">{{title}}</span>
+        <p class="price"> {{price}} </p>
+      </div>
+      <div class="card-action actions">
+        <a href="/books/{{id}}" target="_blank">About this book</a>
+        {{#if @root.isAuth}}
+
+        {{#ifeq userId._id @root.userId}}
+        <a href="/books/{{id}}/edit?allow=true">Edit this book</a>
+        {{/ifeq}}
+
+        <form action="/cart/add-to-cart" method="POST">
+        <input type="hidden" name="id" value="{{id}}">
+        <input type="hidden" name="_csrf" value="{{@root.csurf}}">
+        <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+
+       
+        {{/if}}
+
+      </div>
+    </div>
+  </div>
+  {{/each}}
+  {{else}}
+  <p>
+    no filtered books
+  </p>
+  {{/if}}
+</div>

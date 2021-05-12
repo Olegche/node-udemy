@@ -1,37 +1,66 @@
-const {Schema, model} = require('mongoose')
+const {
+    Schema,
+    model
+} = require('mongoose')
 
-const Book = new Schema ({ 
-title: {
-    type: String,
-    require: true,
-},
-price:{
-    type: Number,
-    require: true,
-},
-img: String,
-description: {
-    type: String,
-    require: true,
-    default: 'no description '
-},
-userId: {
-    type: Schema.Types.ObjectId,
-    ref:'User',
-    require: true,
-    default:'no userId'
-    
-}
+const Book = new Schema({
+    title: {
+        type: String,
+        require: true,
+    },
+    price: {
+        type: Number,
+        require: true,
+    },
+    img: String,
+    description: {
+        type: String,
+        require: true,
+        default: 'no description '
+    },
+    comments: [{
+        comment: {
+            type: String,
+            require: true,
+            default: 'no comment'
+        },
+        commentator: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            default: 'no commentator'
+        },
+        date: {
+            type: Date,
+            default: Date.now
+        }
+
+    }],
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        require: true,
+        default: 'no any model book userId'
+    }
 
 })
 
-Book.method('toClient', function(){
+Book.method('toClient', function () {
     const book = this.toObject() // отримаєм об'єкт книги
 
     book.id = book._id // в айді об'єкта книги присвоюєм обєкт
     delete book._id //  видаляємо лишні дані з об'єкта книги
     return book
 })
+
+Book.methods.addComment = function (comment, commentator) {
+    let comments = [...this.comments]
+    
+    comments.unshift({
+        comment, commentator
+    })
+    this.comments = comments 
+    return this.save()
+}
 
 module.exports = model('Book', Book)
 

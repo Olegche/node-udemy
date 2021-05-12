@@ -120,12 +120,10 @@ User.methods.clearCart = function () {
 // friends functions
 
 User.methods.addToFriend = function (user) {
-
   const friends = [...this.friendsList.friends]
   const idx = friends.findIndex(item => {
     return item.friendId.toString() === user._id.toString()
   })
-
   if (idx >= 0) {
     console.log('friend is already existing');
  
@@ -135,14 +133,12 @@ User.methods.addToFriend = function (user) {
 
   })
   }
-
-  
-
   this.friendsList = {
     friends
   }
   return this.save()
 }
+
 User.methods.deleteFriends= function (candidate) {
   let friends = [...this.friendsList.friends]
   friends = friends.filter(item => item.friendId.toString() !== candidate.toString())
